@@ -1,0 +1,53 @@
+{% import "_macros.html" as macros %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Story</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/story.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-8">
+                {% if storys %}
+                    {% for story in storys %}
+                        <br>
+                        <h3 class="text-info">{{ story.title }}</h3>
+                        <br>
+
+                        <p>{{ story.content }}</p>
+                        <p class="text-success">{{ story.author.nick_name }} Create On {{ story.create_time }} Category is <span class="label label-primary">{{ story.category.name }}</span></p>
+                        <a href="delete_story/{{ story.id }}" role="button" class="btn btn-danger btn-sm">delete this story</a>
+                        <br>
+                    {% endfor %}
+                {% else %}
+                    <h3>No Story in here.</h3>
+                {% endif %}
+
+
+
+            </div>
+
+            <div class="col-md-2">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="footer">
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, 'show_storys') }}
+        </div>
+    </div>
+
+
+
+    <script src="{{ url_for('static', filename = 'js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/bootstrap.min.js') }}"></script>
+</body>
+</html>
