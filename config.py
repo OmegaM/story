@@ -12,7 +12,7 @@
 
 
 class Config(object):
-    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_ECHO = False
     CSRF_ENABLED = True
     SECRET_KEY = 'you-will-never-guess'
 

@@ -11,7 +11,7 @@
 @author : OmegaMiao"""
 
 
-from app import db
+from app import db, app
 from models import Story, Category, Author
 from sqlalchemy.orm import joinedload
 
@@ -26,6 +26,7 @@ class StoryService(object):
     @staticmethod
     def get_story(story_id):
         try:
+            app.logger.debug("invoke get_story method...")
             result = db.session.query(
                 Story.title,
                 Story.create_time,
@@ -44,6 +45,7 @@ class StoryService(object):
                 "content": result[0][4]
             }}
         except Exception, e:
+            app.logger.error(e.message)
             return {"errorMessage": e.message}
         finally:
             db.session.close()
@@ -58,6 +60,7 @@ class StoryService(object):
             #     story_list.append(i.to_json())
             return pagination
         except Exception, e:
+            app.logger.error(e.message)
             return {"errorMessage": e.message}
         finally:
             db.session.close()
@@ -77,6 +80,7 @@ class StoryService(object):
             db.session.add(story)
             db.session.commit()
         except Exception, e:
+            app.logger.error(e.message)
             db.session.rollback()
         finally:
             db.session.close()
@@ -89,6 +93,7 @@ class StoryService(object):
             db.session.commit()
             return {"message": "delete success!"}
         except Exception, e:
+            app.logger.error(e.message)
             db.session.rollback()
         finally:
             db.session.close()
