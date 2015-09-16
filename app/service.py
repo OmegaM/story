@@ -14,7 +14,7 @@
 from app import db, app
 from models import Story, Category, Author
 from sqlalchemy.orm import joinedload
-
+from sqlalchemy.orm.exc import NoResultFound
 PER_PAGE = 2
 
 
@@ -93,6 +93,36 @@ class StoryService(object):
             db.session.commit()
             return {"message": "delete success!"}
         except Exception, e:
+            app.logger.error(e.message)
+            db.session.rollback()
+        finally:
+            db.session.close()
+
+    @staticmethod
+    def get_storys_by_author(nick_name):
+        author_story_list = []
+        try:
+            author = Author.query.filter(Author.nick_name == nick_name).one()
+            storys = author.storys
+            for story in storys:
+                author_story_list.append(story)
+            return author_story_list
+        except NoResultFound, e:
+            app.logger.error(e.message)
+            db.session.rollback()
+        finally:
+            db.session.close()
+
+    @staticmethod
+    def get_storys_by_category(category_name):
+        category_story_list = []
+        try:
+            category = Category.query.filter(Category.name == category_name).one()
+            storys = category.storys
+            for story in storys:
+                category_story_list.append(story)
+            return category_story_list
+        except NoResultFound, e:
             app.logger.error(e.message)
             db.session.rollback()
         finally:
