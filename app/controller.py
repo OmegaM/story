@@ -63,3 +63,15 @@ def add_story():
         except Exception, e:
             return jsonify({"errorMessage": e.message})
     return render_template('index.html', form=form)
+
+
+@app.route('/story/<string:author_nickname>')
+def get_story_by_author(author_nickname):
+    # TODO: complete this get_story_by_author method
+    pass
+
+
+@app.route('/story/<string:category>')
+def get_story_by_category(category):
+    # TODO: complete this get_story_by_category method
+    pass
