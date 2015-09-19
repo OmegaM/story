@@ -15,6 +15,7 @@ import unittest
 import json
 from app import app, db
 from app.models import Story, Author, Category
+from app.service import StoryService
 from config import config
 
 
@@ -39,19 +40,11 @@ class StoryTestCase(unittest.TestCase):
     def test_show_storys(self):
         self.assertTrue("Tody is Sunday" in self.app.get('/show_storys').data)
 
-    def test_add_story(self):
+    def test_get_story_by_author(self):
+        self.assertEqual(Author.query.filter(Author.nick_name == 'Steven Gerrard').one().storys[0].title, 'Perl')
 
-        # print "---------" + self.app.post('/add_story', data=dict(
-        #     title='Test',
-        #     content='Test',
-        #     author='Test',
-        #     nick_name='Test',
-        #     category=Category.query.get(1)
-        # ), follow_redirects=True).data
-        self.assertTrue(self.app.post('/add_story', data=dict(
-            title='Test',
-            content='Test',
-            author='Test',
-            nick_name='Test',
-            category=Category.query.get(1)
-        ), follow_redirects=True).data is not None)
+    def test_get_story_list_by_author(self):
+        self.assertTrue(len(StoryService.get_storys_by_author('Steven Gerrard')) == 2)
+
+    def test_get_story_list_by_category(self):
+        self.assertTrue(len(StoryService.get_storys_by_category('Java')) == 2)
