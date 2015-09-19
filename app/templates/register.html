@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-3">
+            left
+        </div>
+
+        <div class="col-md-6">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <br>
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>My Story</h1>
+            <hr>
+            <form role="form" action="/register" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email(class='form-control', placeholder='请输入邮箱地址') }}
+                    {% for error in form.email.errors %}
+                        <span class="text-danger">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username(class='form-control', placeholder='请输入用户名') }}
+                    {% for error in form.username.errors %}
+                        <span class="text-danger">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password(class='form-control', placeholder='请输入密码') }}
+                    {% for error in form.password.errors %}
+                        <span class="text-danger">{{error}}</span>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password2.label }}
+                    {{ form.password2(class='form-control', placeholder='请再次输入密码') }}
+                    {% for error in form.password2.errors %}
+                        <span class="text-danger">{{error}}</span>
+                    {% endfor %}
+                </div>
+
+
+                <button class="btn btn-primary btn-lg" type="submit">注册</button>
+                <button class="btn btn-danger btn-lg" type="reset">重置</button>
+
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            right
+        </div>
+    </div>
+
+{% endblock %}

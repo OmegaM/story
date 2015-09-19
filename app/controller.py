@@ -14,7 +14,7 @@ from app import app
 from flask import jsonify, request, render_template, redirect, flash, url_for
 from flask.ext.login import login_required, login_user, logout_user
 from models import Story, User
-from forms import StoryForm, LoginForm
+from forms import StoryForm, LoginForm, RegistrationForm
 from service import StoryService
 
 
@@ -37,12 +37,25 @@ def login():
 
     return render_template('login.html', form=form)
 
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     flash(u'你已经登出')
     return redirect(url_for('index'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email=form.email.data, username=form.username.data, password=form.password.data)
+        StoryService.add_user(user)
+        flash(u"注册成功，请登录")
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
 
 
 @app.route('/story/<int:story_id>')

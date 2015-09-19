@@ -127,3 +127,14 @@ class StoryService(object):
             db.session.rollback()
         finally:
             db.session.close()
+
+    @staticmethod
+    def add_user(_user):
+        try:
+            db.session.add(_user)
+            db.session.commit()
+        except Exception, e:
+            app.logger.error(e.message)
+            db.session.rollback()
+        finally:
+            db.session.close()

@@ -24,6 +24,8 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 #     for obj in db.session.query(Category).all():
 #         category_dict[obj.id] = obj.name
 #     return category_dict.items()
+
+
 class StoryForm(Form):
     title = StringField(label='Title', validators=[DataRequired(message=u"该字段为必填项"),
                                                    Length(min=1, max=30, message=u"大于30个字")])
@@ -65,5 +67,5 @@ class RegistrationForm(Form):
             raise ValidationError(u'用户名邮箱已经被注册')
 
     def validate_username(self, field):
-        if User.query.filter_by(username=field.data).first or Author.query.filter_by(nick_name=field.data):
+        if User.query.filter_by(username=field.data).first() or Author.query.filter_by(nick_name=field.data).first():
             raise ValidationError(u'用户名已经被占用')
