@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-3">
+            left
+        </div>
+
+        <div class="col-md-6">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <br>
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>My Story</h1>
+            <hr>
+            <form role="form" action="login" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.email.label }}
+                    <div class="input-group input-group-lg">
+
+                        {{ form.email(class='form-control', placeholder='邮箱地址') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    <div class="input-group input-group-lg">
+
+                        {{ form.password(class='form-control', placeholder='密码') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            {{ form.remember_me(type='checkbox') }} 记住我
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-default" type="submit">登录</button>
+
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            right
+        </div>
+    </div>
+
+{% endblock %}

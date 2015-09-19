@@ -10,18 +10,39 @@
 
 @author : OmegaMiao"""
 
-
 from app import app
 from flask import jsonify, request, render_template, redirect, flash, url_for
-from models import Story
-from forms import StoryForm
+from flask.ext.login import login_required, login_user, logout_user
+from models import Story, User
+from forms import StoryForm, LoginForm
 from service import StoryService
 
 
 @app.route('/')
+@login_required
 def index():
     form = StoryForm()
     return render_template('index.html', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user, form.remember_me.data)
+            return redirect(request.args.get('next') or url_for('index'))
+        flash(u'用户名或密码不正确')
+
+    return render_template('login.html', form=form)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash(u'你已经登出')
+    return redirect(url_for('index'))
 
 
 @app.route('/story/<int:story_id>')
