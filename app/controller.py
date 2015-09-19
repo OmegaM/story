@@ -12,16 +12,16 @@
 
 from app import app
 from flask import jsonify, request, render_template, redirect, flash, url_for
-from flask.ext.login import login_required, login_user, logout_user
+from flask.ext.login import login_required, login_user, logout_user, current_user
 from models import Story, User
 from forms import StoryForm, LoginForm, RegistrationForm
 from service import StoryService
 
 
 @app.route('/')
-@login_required
 def index():
     form = StoryForm()
+    print current_user
     return render_template('index.html', form=form)
 
 

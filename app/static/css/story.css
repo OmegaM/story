@@ -6,3 +6,7 @@
     height: 30px; /*脚部的高度*/
     clear: both;
 }
+
+.error-span {
+    margin-top: 30px;
+}
