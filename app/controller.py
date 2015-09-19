@@ -21,7 +21,7 @@ from service import StoryService
 @app.route('/')
 def index():
     form = StoryForm()
-    print current_user
+
     return render_template('index.html', form=form)
 
 
@@ -88,10 +88,10 @@ def add_story():
 
         story = Story(form.title.data, form.content.data)
         try:
-            StoryService.add_story(story=story,
-                                   nick_name=form.nick_name.data,
-                                   category=form.category.data,
-                                   author=form.author.data)
+            StoryService.add_story(_story=story,
+                                   _nick_name=current_user.username,
+                                   _category=form.category.data,
+                                   _author=current_user.username)
             flash("add success")
             return redirect(url_for('index'))
         except Exception, e:

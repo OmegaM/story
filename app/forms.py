@@ -30,8 +30,6 @@ class StoryForm(Form):
     title = StringField(label='Title', validators=[DataRequired(message=u"该字段为必填项"),
                                                    Length(min=1, max=30, message=u"大于30个字")])
     content = TextAreaField(label='Content', validators=[DataRequired(u"该字段为必填项"), Length(min=1, max=500)])
-    author = StringField(label='Author', validators=[DataRequired(u"该字段为必填项")])
-    nick_name = StringField(label='Nick Name', validators=[DataRequired(u"该字段为必填项")])
     # category = SelectField(label='Category', choices=category_selector(), coerce=int)
     category = QuerySelectField(label='Category', query_factory=Category.query.all,
                                 get_pk=lambda a: a.id, get_label=lambda a: a.name)

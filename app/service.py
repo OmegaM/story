@@ -69,8 +69,8 @@ class StoryService(object):
     def add_story(_story, _nick_name, _category, _author):
         print _author
         print _category  # this category is object!!!!!!
-        if Author.query.filter(Author.nick_name == nick_name).count() >= 1:
-            author = Author.query.filter(Author.nick_name == nick_name).all()[0]
+        if Author.query.filter(Author.nick_name == _nick_name).count() >= 1:
+            author = Author.query.filter(Author.nick_name == _nick_name).all()[0]
         else:
             author = Author(_author, _nick_name)
         category = Category.query.get(_category.id)

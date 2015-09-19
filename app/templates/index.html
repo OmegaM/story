@@ -15,21 +15,9 @@
                     <span class="text-danger">{{ error }}</span>
                 {% endfor %}
                 <div class="form-group">
-                    <br>{{ form.content(class='form-control', rows=6, placeholder='内容') }}
+                    <br>{{ form.content(class='form-control', rows=8, placeholder='内容') }}
                 </div>
                 {% for error in form.content.errors %}
-                    <span class="text-danger">{{ error }}</span>
-                {% endfor %}
-                <div class="form-group">
-                    <br>{{ form.author(class='form-control', placeholder='作者') }}
-                </div>
-                {% for error in form.errors.author %}
-                    <span class="text-danger">{{ error }}</span>
-                {% endfor %}
-                <div class="form-group">
-                    <br>{{ form.nick_name(class='form-control', placeholder='昵称') }}
-                </div>
-                {% for error in form.nick_name.errors %}
                     <span class="text-danger">{{ error }}</span>
                 {% endfor %}
                 <div class="form-group">
@@ -39,13 +27,13 @@
                     <span class="text-danger">{{ error }}</span>
                 {% endfor %}
                 {% if current_user.is_authenticated() %}
-                    <button class="btn btn-success btn-lg" type="submit">提交</button>
+                    <button class="btn btn-success" type="submit">提交</button>
                 {% endif %}
-                <button class="btn btn-danger btn-lg" type="reset">重置</button>
+                <button class="btn btn-danger" type="reset">重置</button>
                 {% if current_user.is_authenticated() %}
-                    <a href="{{ url_for('show_storys') }}" role="button" class="btn btn-default btn-lg">查看所有故事</a>
+                    <a href="{{ url_for('show_storys') }}" role="button" class="btn btn-default">查看所有故事</a>
                 {% else %}
-                    <a href="{{ url_for('register') }}" role="button" class="btn btn-default btn-lg">注册</a>
+                    <a href="{{ url_for('register') }}" role="button" class="btn btn-default">注册去添加故事</a>
                 {% endif %}
             </form>
             <br>
