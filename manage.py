@@ -12,12 +12,14 @@
 
 
 from flask.ext.script import Manager, Server
-from app import app
+from flask.ext.migrate import Migrate, MigrateCommand
+from app import app, db
 
 
 manager = Manager(app)
+migrate = Migrate(app, db)
 manager.add_command("runserver", Server(host='127.0.0.1', port=5000, use_debugger=True))
-
+manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
     manager.run()
