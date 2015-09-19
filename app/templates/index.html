@@ -1,80 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Story</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-</head>
-<body>
-    <div class="container">
-        <div class="row">
+{% extends "base.html" %}
+{% block page_content %}
+    <div class="row">
 
-            <div class="col-md-3">
-                left
-            </div>
 
-            <div class="col-md-6">
+        <div class="col-md-6">
 
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <br>
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        {{ message }}
-                        </div>
-                    {% endfor %}
+
+            <form role="form" action="add_story" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.title(class='form-control', placeholder='标题') }}
+                </div>
+                {% for error in form.errors.title %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+                <div class="form-group">
+                    <br>{{ form.content(class='form-control', rows=8, placeholder='内容') }}
+                </div>
+                {% for error in form.content.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+                <div class="form-group">
+                    <br>{{ form.category(class='form-control') }}
+                </div>
+                {% for error in form.category.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+                {% if current_user.is_authenticated() %}
+                    <button class="btn btn-success" type="submit">提交</button>
                 {% endif %}
-                {% endwith %}
-                <h1>My Story</h1>
-                <hr>
-                <form role="form" action="add_story" method="POST">
-                    {{ form.hidden_tag() }}
-                    <div class="form-group">
-                        {{ form.title(class='form-control', placeholder='标题') }}
-                        {% for error in form.errors.title %}
-                            <span class="text-danger">{{error}}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        <br>{{ form.content(class='form-control', rows=8, placeholder='内容') }}
-                        {% for error in form.content.errors %}
-                            <span class="text-danger">{{error}}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.author(class='form-control', placeholder='作者') }}
-                        {% for error in form.errors.author %}
-                            <span class="text-danger">{{error}}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.nick_name(class='form-control', placeholder='昵称') }}
-                        {% for error in form.nick_name.errors %}
-                            <span class="text-danger">{{error}}</span>
-                        {% endfor %}
-                    </div>
-                    <div class="form-group">
-                        {{ form.category(class='form-control') }}
-                        {% for error in form.category.errors %}
-                            <span class="text-danger">{{error}}</span>
-                        {% endfor %}
-                    </div>
-                    <button class="btn btn-success btn-lg" type="submit">提交</button>
-                    <button class="btn btn-danger btn-lg" type="reset">重置</button>
-                    <a href="{{ url_for('show_storys') }}" role="button" class="btn btn-default btn-lg">查看所有故事</a>
-                </form>
-                <br>
+                <button class="btn btn-danger" type="reset">重置</button>
+                {% if current_user.is_authenticated() %}
+                    <a href="{{ url_for('show_storys') }}" role="button" class="btn btn-default">查看所有故事</a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" role="button" class="btn btn-default">注册去添加故事</a>
+                {% endif %}
+            </form>
+            <br>
 
-            </div>
+        </div>
 
 
-            <div class="col-md-3">
+        <div class="col-md-6">
 
-            </div>
+            {% if current_user.is_authenticated() %}
+                <p>Welcome <code>{{ current_user.username|striptags|title }}</code>, You can click below button to see
+                    ajax story demo...</p>
+                <a href="#" role="button" class="btn btn-primary">click</a>
+            {% endif %}
+
         </div>
     </div>
-    <script src="{{ url_for('static', filename = 'js/jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename = 'js/bootstrap.min.js') }}"></script>
-</body>
-</html>
+{% endblock %}
