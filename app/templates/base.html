@@ -37,7 +37,7 @@
 
 {% block content %}
     <div class="container">
-    {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
                     <br>
@@ -64,5 +64,6 @@
 {% endblock %}
 <script src="{{ url_for('static', filename = 'js/jquery.js') }}"></script>
 <script src="{{ url_for('static', filename = 'js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/story.js') }}"></script>
 </body>
 </html>

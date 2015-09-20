@@ -10,7 +10,7 @@
 
 @author : OmegaMiao"""
 
-from app import app
+from app import app, logger
 from flask import jsonify, request, render_template, redirect, flash, url_for
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from models import Story, User
@@ -19,9 +19,10 @@ from service import StoryService
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     form = StoryForm()
-
+    logger.debug("in index..")
     return render_template('index.html', form=form)
 
 
@@ -60,7 +61,7 @@ def register():
 
 @app.route('/story/<int:story_id>')
 def get_story(story_id):
-    return jsonify(StoryService.get_story(story_id))
+    return jsonify(StoryService.get_story(story_id)), 200
 
 
 # @app.route('/storys')

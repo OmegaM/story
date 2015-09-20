@@ -26,7 +26,7 @@ class StoryService(object):
     @staticmethod
     def get_story(_story_id):
         try:
-            app.logger.debug("invoke get_story method...")
+
             result = db.session.query(
                 Story.title,
                 Story.create_time,

@@ -45,9 +45,12 @@
 
             {% if current_user.is_authenticated() %}
                 <p>Welcome <code>{{ current_user.username|striptags|title }}</code>, You can click below button to see
-                    ajax story demo...</p>
-                <a href="#" role="button" class="btn btn-primary">click</a>
+                    <code>ajax</code> story demo...</p>
+                <a role="button" class="btn btn-primary" onclick="return ajax_show()">click</a>
             {% endif %}
+            <div id="info">
+
+            </div>
 
         </div>
     </div>
