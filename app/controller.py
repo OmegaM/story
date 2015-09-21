@@ -10,19 +10,19 @@
 
 @author : OmegaMiao"""
 
-from app import app, logger
+from app import app, logger, db
 from flask import jsonify, request, render_template, redirect, flash, url_for
 from flask.ext.login import login_required, login_user, logout_user, current_user
 from models import Story, User
 from forms import StoryForm, LoginForm, RegistrationForm
 from service import StoryService
+from sendemail import send_mail
 
 
 @app.route('/')
 @app.route('/index')
 def index():
     form = StoryForm()
-    logger.debug("in index..")
     return render_template('index.html', form=form)
 
 
@@ -52,10 +52,23 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email=form.email.data, username=form.username.data, password=form.password.data)
+        # StoryService.add_user(user)
         StoryService.add_user(user)
-        flash(u"注册成功，请登录")
+        flash(u"一封确认邮件已经发送到您的账户")
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+
+@app.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('index'))
+    if current_user.confirm(token):
+        flash(u'你已经确认了你的账户')
+    else:
+        flash(u'验证连接不正确或已过期')
+    return redirect(url_for('index'))
 
 
 

@@ -15,6 +15,7 @@ from app import db, app
 from models import Story, Category, Author
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm.exc import NoResultFound
+from sendemail import send_mail
 PER_PAGE = 2
 
 
@@ -133,6 +134,8 @@ class StoryService(object):
         try:
             db.session.add(_user)
             db.session.commit()
+            token = _user.generate_confirmation_token()
+            send_mail(_user.email, 'Confirm Your Account', 'signature/email_confirm', user=user, token=token)
         except Exception, e:
             app.logger.error(e.message)
             db.session.rollback()

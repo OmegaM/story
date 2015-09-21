@@ -16,6 +16,8 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 from config import config
+from flask.ext.mail import Mail
+
 
 loginManager = LoginManager()
 loginManager.session_protection = 'strong'
@@ -31,6 +33,9 @@ console.setFormatter(formatter)
 logger = app.logger
 logger.addHandler(console)
 logger.setLevel(logging.DEBUG)
+
+# mail
+mail = Mail(app)
 
 from controller import app
 from models import Author, Story, Category
