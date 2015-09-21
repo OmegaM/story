@@ -52,7 +52,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email=form.email.data, username=form.username.data, password=form.password.data)
-        # StoryService.add_user(user)
+        # TODO: refine code in here
         StoryService.add_user(user)
         flash(u"一封确认邮件已经发送到您的账户")
         return redirect(url_for('login'))
