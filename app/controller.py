@@ -71,7 +71,6 @@ def confirm(token):
     return redirect(url_for('index'))
 
 
-
 @app.route('/story/<int:story_id>')
 def get_story(story_id):
     return jsonify(StoryService.get_story(story_id)), 200

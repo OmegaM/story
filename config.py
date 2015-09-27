@@ -22,12 +22,12 @@ class Config(object):
 
 class DevConfig(Config):
 
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:wxhwbx6666@localhost/alchemy'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost/alchemy'
 
 
 class TestConfig(Config):
 
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:wxhwbx6666@localhost/story_test'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:@localhost/story_test'
 
 
 config = {
