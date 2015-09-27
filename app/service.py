@@ -135,7 +135,7 @@ class StoryService(object):
             db.session.add(_user)
             db.session.commit()
             token = _user.generate_confirmation_token()
-            send_mail(_user.email, 'Confirm Your Account', 'signature/email_confirm', user=user, token=token)
+            send_mail(_user.email, 'Confirm Your Account', 'signature/email_confirm', user=_user, token=token)
         except Exception, e:
             app.logger.error(e.message)
             db.session.rollback()
