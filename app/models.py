@@ -11,7 +11,7 @@
 @author : OmegaMiao"""
 
 
-from app import db, loginManager
+from app import db, loginManager, logger
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
@@ -102,7 +102,8 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
-        except:
+        except Exception, e:
+            logger.error("load token data has an error, error message is ------> " + e.message)
             return False
         if data.get('confirm') != self.id:
             return False
