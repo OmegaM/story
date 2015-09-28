@@ -13,10 +13,11 @@
 from app import app, logger, db
 from flask import jsonify, request, render_template, redirect, flash, url_for
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from models import Story, User
+from models import Story, User, Permission
 from forms import StoryForm, LoginForm, RegistrationForm
 from service import StoryService
 from sendemail import send_mail
+from decorators import admin_required, permission_required
 
 
 @app.route('/')
@@ -110,6 +111,21 @@ def add_story():
         except Exception, e:
             return jsonify({"errorMessage": e.message})
     return render_template('index.html', form=form)
+
+
+# permission view
+@app.route('/admin')
+@login_required
+@admin_required
+def for_admins_only():
+    return "For Admin!"
+
+
+@app.route('/moderator')
+@login_required
+@permission_required(Permission.MODERATE_COMMENTS)
+def for_moderators_only():
+    return "For comment moderators!"
 
 
 @app.route('/story/<string:author_nickname>')

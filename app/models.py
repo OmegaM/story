@@ -14,7 +14,7 @@
 from app import db, loginManager, logger
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin, AnonymousUserMixin
 # import signature package
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
@@ -112,8 +112,29 @@ class User(UserMixin, db.Model):
         db.session.commit()
         return True
 
+    def can(self, permissions):
+        return self.role is not None and (self.role.permissions & permissions) == permissions
+
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['xxxxxxx']:
+                # TODO: add this feature!!!!!!!!
+                pass
+
     def __repr__(self):
         return '<User %r>' % self.username
+
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
 
 
 class Role(db.Model):
@@ -164,3 +185,6 @@ class Permission:
 @loginManager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+loginManager.anonymous_user = AnonymousUser
